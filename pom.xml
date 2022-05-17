@@ -7,4 +7,7 @@
   <packaging>pom</packaging>
   
 
+  <modules>
+  	<module>jdbc-practices</module>
+  </modules>
 </project>
