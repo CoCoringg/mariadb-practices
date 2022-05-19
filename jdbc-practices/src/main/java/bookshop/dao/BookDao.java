@@ -18,28 +18,17 @@ public class BookDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			// 1. JDBC Driver 로딩 (JDBC Class 로딩: class loader)
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			// 2. 연결하기
-			String url = "jdbc:mysql://192.168.10.39:3306/webdb?charset=utf8";
-			connection = DriverManager.getConnection(url, "webdb", "webdb");
+			connection = getConnection();
 			
-			// 3. SQL 준비
 			String sql = "insert into book values(null, ?, ?, ?)"; 
 			pstmt = connection.prepareStatement(sql);
 			
-			// 4. Mapping(bind)
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getStateCode());
 			pstmt.setLong(3, vo.getAuthorNo());
 			
-			// 5. SQL 실행
 			int count = pstmt.executeUpdate();
 			result = count == 1;
-			System.out.println("connected!");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} finally {
@@ -64,27 +53,16 @@ public class BookDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			// 1. JDBC Driver 로딩 (JDBC Class 로딩: class loader)
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			// 2. 연결하기
-			String url = "jdbc:mysql://192.168.10.39:3306/webdb?charset=utf8";
-			connection = DriverManager.getConnection(url, "webdb", "webdb");
+			connection = getConnection();
 			
-			// 3. Statement 생성
 			String sql = "select a.no, a.title, b.name, a.state_code\r\n"
 					+ "	from book a, author b\r\n"
 					+ "where a.author_no = b.no\r\n"
 					+ "order by a.no asc";
 			pstmt = connection.prepareStatement(sql);
 			
-			// 4. Parameter Mapping
-			
-			// 5. SQL 실행
 			rs = pstmt.executeQuery();
-			System.out.println("connected!");
-			
-			// 6. 결과처리
+
 			while(rs.next()) {
 				Long no = rs.getLong(1); // db 1로 시작
 				String title = rs.getString(2);
@@ -99,8 +77,6 @@ public class BookDao {
 				
 				result.add(vo);
 			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} finally {
@@ -119,6 +95,19 @@ public class BookDao {
 			}
 		}
 		return result;
+	}
+	
+	private Connection getConnection() throws SQLException {
+		Connection connection = null;
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			
+			String url = "jdbc:mysql://192.168.10.39:3306/webdb?charset=utf8";
+			connection = DriverManager.getConnection(url, "webdb", "webdb");
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패"+ e);
+		}
+		return connection;
 	}
 
 }
