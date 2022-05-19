@@ -24,7 +24,7 @@ public class OrderDao {
 		return connection;
 	}
 	
-	public boolean insert(OrderVo vo) {
+	public boolean insert(String orderNum, String addr, int totalPrice, Long memberNo) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -35,10 +35,10 @@ public class OrderDao {
 			String sql = "insert into orders values (null, ?, ?, ?, ?)"; 
 			pstmt = connection.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getOrderNum());
-			pstmt.setString(2, vo.getAddr());
-			pstmt.setInt(3, vo.getTotalPrice());
-			pstmt.setLong(4, vo.getMemberNo());
+			pstmt.setString(1, orderNum);
+			pstmt.setString(2, addr);
+			pstmt.setInt(3, totalPrice);
+			pstmt.setLong(4, memberNo);
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -60,7 +60,7 @@ public class OrderDao {
 		return result;
 	}
 	
-	public boolean orderBookInsert(OrderVo vo) {
+	public boolean orderBookInsert(int count, Long bookNo, Long orderNo) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -71,11 +71,11 @@ public class OrderDao {
 			String sql = "insert into order_book values (null, ?, ?, ?)"; 
 			pstmt = connection.prepareStatement(sql);
 			
-			pstmt.setInt(1, vo.getCount());
-			pstmt.setLong(2, vo.getBookNo());
-			pstmt.setLong(3, vo.getOrderNo());
+			pstmt.setInt(1, count);
+			pstmt.setLong(2, bookNo);
+			pstmt.setLong(3, orderNo);
 			
-			int count = pstmt.executeUpdate();
+			int Count = pstmt.executeUpdate();
 			result = count == 1;
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);

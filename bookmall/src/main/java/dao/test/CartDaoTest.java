@@ -9,23 +9,23 @@ import vo.CartVo;
 public class CartDaoTest {
 
 	public static void main(String[] args) {
-		// testInsert();
+		testInsert();
 		testFindByCart();
 	}
 
 	private static void testInsert() {
 		CartDao dao = new CartDao();
-		CartVo vo = new CartVo();
+//		CartVo vo = new CartVo();
 		
-		vo.setCount(2);
-		vo.setBookNo(1L);
-		vo.setMemberNo(1L);
-		dao.insert(vo);
+//		vo.setCount(2);
+//		vo.setBookNo(1L);
+//		vo.setMemberNo(1L);
+		dao.insert(2,1L,1L);
 		
-		vo.setCount(1);
-		vo.setBookNo(2L);
-		vo.setMemberNo(1L);
-		dao.insert(vo);
+//		vo.setCount(1);
+//		vo.setBookNo(2L);
+//		vo.setMemberNo(1L);
+		dao.insert(1,2L,1L);
 		
 	}
 	

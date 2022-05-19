@@ -24,7 +24,7 @@ public class MemberDao {
 		return connection;
 	}
 	
-	public boolean insert(MemberVo vo) {
+	public boolean insert(String name, String phone, String email, String pwd) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -35,10 +35,10 @@ public class MemberDao {
 			String sql = "insert into member values (null, ?, ?, ?, ?)"; 
 			pstmt = connection.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPhone());
-			pstmt.setString(3, vo.getEmail());
-			pstmt.setString(4, vo.getPwd());
+			pstmt.setString(1, name);
+			pstmt.setString(2, phone);
+			pstmt.setString(3, email);
+			pstmt.setString(4, pwd);
 			
 			int count = pstmt.executeUpdate();
 			result = count == 1;

@@ -24,7 +24,7 @@ public class CartDao {
 		return connection;
 	}
 	
-	public boolean insert(CartVo vo) {
+	public boolean insert(int count, Long bookNo, Long memberNo) {
 		boolean result = false;
 		Connection connection = null;
 		PreparedStatement pstmt = null;
@@ -35,12 +35,12 @@ public class CartDao {
 			String sql = "insert into cart values (null, ?, ?, ?)"; 
 			pstmt = connection.prepareStatement(sql);
 			
-			pstmt.setInt(1, vo.getCount());
-			pstmt.setLong(2, vo.getBookNo());
-			pstmt.setLong(3, vo.getMemberNo());
+			pstmt.setInt(1, count);
+			pstmt.setLong(2, bookNo);
+			pstmt.setLong(3, memberNo);
 			
-			int count = pstmt.executeUpdate();
-			result = count == 1;
+			int Count = pstmt.executeUpdate();
+			result = Count == 1;
 		} catch (SQLException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		} finally {
